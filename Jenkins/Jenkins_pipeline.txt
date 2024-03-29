@@ -1,0 +1,24 @@
+pipeline {
+    agent {label "projecta"}
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Adarshshriram/Little_fashion.git'
+            }
+        }
+        stage('install') {
+            steps {
+                sh 'yum install httpd -y'
+                sh 'systemctl start httpd'
+            }
+        }
+        stage('copy project to html path') {
+            steps {
+                sh 'cd /var/jenkins/workspace/http-littlefashion'
+                sh 'ls'
+                sh 'cp -r /var/jenkins/workspace/http-littlefashion/* /var/www/html'
+            }
+        }
+    }
+}

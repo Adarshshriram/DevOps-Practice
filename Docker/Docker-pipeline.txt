@@ -1,0 +1,38 @@
+pipeline {
+    agent { label "projecta" }
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Adarshshriram/resturant.git'
+            }
+        }
+        stage('docker build') {
+            steps {
+                sh 'docker build -t resturant_adhi .'
+            }
+        }
+        stage('docker tag') {
+            steps {
+                sh 'docker tag resturant_adhi adhiadarsh/resturant_adhi'
+            }
+        }
+        stage('docker run image') {
+            steps {
+                sh 'docker stop resturant_container || true'
+                sh 'docker rm resturant_container || true'
+                sh 'docker run -d --name resturant_container -p 80:80 adhiadarsh/resturant_adhi'
+            }
+        }
+        stage('docker login   ') {
+            steps {
+                sh 'docker login -u adarshmc28@gmail.com -p Adarsh@123'
+            }
+        }
+        stage('docker push    ') {
+            steps {
+                sh 'docker push adhiadarsh/resturant_adhi'
+            }
+        }
+    }
+}

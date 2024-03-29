@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resturant-deployment
+  labels:
+    app: resturant
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: resturant
+  template:
+    metadata:
+      labels:
+        app: resturant
+    spec:
+      containers:
+      - name: resturant
+        image: adhiadarsh/resturant_adhi
+        ports:
+        - containerPort: 80
